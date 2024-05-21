@@ -1,0 +1,74 @@
+:root{
+	--turquoise-dark: #397e7d;
+	--turquoise-light: #44af9d;	
+	--mint-normal: #87c6ac;
+	--mint-light: #a6cec0;
+	--salmon-normal: #d39280;
+	--gold-dark: #b28a4b;
+	--gold-light: #e1dcd3;
+	--green-light: #03cf92;
+}
+
+*{
+	color: var(--turquoise-dark);
+}
+
+body{
+	background-color: var(--turquoise-dark);
+}
+
+h2, h3{
+	text-align: center;
+}
+
+#div-container{
+	display: grid;
+	grid-template-rows: 50px 300px 450px;
+	background-color: var(--gold-light);
+	min-width: 500px; 
+	min-height: 500px;
+	max-width: 500px; 
+	max-height: 800px;
+	margin: auto;
+	margin-top: 10%;
+	box-shadow: 5px 5px 0px var(--turquoise-light);
+	padding: 20px;
+}
+
+img{
+	width: 200px;
+	height: 200px;
+	margin: auto;
+	display: inline-block;
+}
+
+
+#div-details{
+	overflow-y: scroll;
+}
+
+.div-purchase{
+	display: flex;
+	justify-content: space-between;
+	border: 1px solid var(--turquoise-light);
+	padding: 10px;
+}
+
+.p-purchase-amount{
+	color: var(--salmon-normal);
+	font-weight: 600;
+}
+
+.p-purchase-return{
+	color: var(--green-light);
+	font-weight: 600;
+}
+
+button{
+	font-size: 1.3em;
+	background-color: var(--gold-dark);
+	color: #fff;
+}
+
+
+
