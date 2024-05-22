@@ -1,13 +1,21 @@
+{% load static %}
 <html>
 	<head>
 		<title>Login</title>
-		<link rel='stylesheet' href='user.css' />
+		<link rel='stylesheet' href='{% static "user.css" %}' />
 	</head>
 	<body>
-		<button>Salir</button>
+		<!--user data-->
+		<input type="hidden" id="user_hash" value="{{user.user_hash}}" />
+		<form method="post" action="{% url "cashback:logout_user" %}">
+			{% csrf_token %}
+			<input type="hidden" name="username" value="{{user.username}}" />
+			<input type="hidden" name="password" value="{{user.password}}" />
+			<button>Salir</button>
+		</form>
 		<div id='div-container'>
-			<h2>User: #ya784atjo</h2>
-			<img alt='QR' src='./qr.png' />
+			<h2>User: {{user.username}}</h2>
+			<img alt='QR' id='qr_img' />
 			<div id='div-details'>
 				<h3>Saldo: 12.5$</h3>
 				<h3>Últimas compras:</h3>
@@ -35,5 +43,6 @@
 				</div>
 			</div>
 		</div>
+		<script src="{% static "qr.js" %}"></script>
 	</body>
 </html>

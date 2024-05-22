@@ -22,7 +22,12 @@ def create_user(request):
         user = models.User.objects.get(username=username)
         return render(request, 'register.html', context={'msg':'username already taken.'})
     except models.User.DoesNotExist:
-        return render(request, 'login.html', context={'msg':'username created succesfully!'})
+        user = models.User(username=username, password=password, category='user')
+        user.save()
+        user_hash = hash(str(user.id))
+        user.user_hash = user_hash
+        user.save()
+        return render(request, 'login.html', context={'msg':'user created succesfully!'})
 
 #
 def login_user(request):
@@ -32,7 +37,7 @@ def login_user(request):
         user = models.User.objects.get(username=username, password=password)
         user.state = 1
         if(user.category == 'admin' and user.state == 1):
-            return render(request, 'admin.html', context={})
+            return render(request, 'admin.html', context={'user':user})
         elif(user.category == 'user' and user.state == 1):
             return render(request, 'user.html', context={'user':user})
         else:
@@ -40,7 +45,7 @@ def login_user(request):
     except models.User.DoesNotExist:
         return render(request, 'login.html', context={'msg':'username or password incorrect.'})
 #
-def log_out(request):
+def logout_user(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
     try:

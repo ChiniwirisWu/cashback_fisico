@@ -1,0 +1,22 @@
+{% load static %}
+<html>
+	<head>
+		<title>Register</title>
+		<link rel='stylesheet' href='{% static "login.css" %}' />
+	</head>
+	<body>
+		<div id='div-container'>
+			<form method='post' action='{% url "cashback:create_user" %}'>
+				{% csrf_token %}
+				<h3>Negocio de las frutas!</h3>	
+				<label>Usuario:</label>
+				<input type='text' id='inp-username' name="username" />
+				<label>Contraseña:</label>
+				<input type='password' id='inp-password' name="password" />
+				<button>Ingresar</button>
+				<p>¿No tienes cuenta? haz click <a href='{% url "cashback:view_login" %}'>aquí</a> para crearte una!</p>
+				<br><p>{{msg}}</p>
+			</form>	
+		</div>
+	</body>
+</html>
