@@ -55,5 +55,19 @@ def logout_user(request):
     except models.User.DoesNotExist:
         return render(request, 'login.html', context={})
 
+#
+def add_to_budget(request):
+    amount = request.POST.get('amount')
+    user_hash = request.POST.get('user_hash')
+    user = models.User.objects.get(username=request.POST.get('username'), password=request.POST.get('password'))
+    try:
+        target = models.User.objects.get(user_hash = user_hash)
+        #add 0.09%
+        target.budget += amount * 0.09
+        target.save()
+        return render(request, 'admin.html', context={'user':user, 'msg':'fondo agregado exitosamente!'})
+    except models.User.DoesNotExist:
+        return render(request, 'admin.html', context={'user':user, 'msg':'usuario no existe.'})
+
 
 

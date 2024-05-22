@@ -1,7 +1,7 @@
 {% load static %}
 <html>
 	<head>
-		<title>Login</title>
+		<title>Admin</title>
 		<link rel='stylesheet' href='{% static "login.css" %}' />
 	</head>
 	<body>
@@ -12,14 +12,19 @@
 			<button>Salir</button>
 		</form>
 		<div id='div-container'>
-			<form method='post' action='#'>
+			<form method='post' action='http://api.qrserver.com/v1/read-qr-code' enctype="multipart/form-data">
+				{% csrf_token %}
 				<h3>Cash back!</h3>	
-				<label>Usuario:</label>
-				<button>Presionar para escanear código del usuario</button>
+				<label>Usuario: {{user.username}}</label><br>
+				<input type="hidden" name="MAX_FILE_SIZE" value="1048576">
+				Choose QR code image to read/scan: <input type="file" name="file">
 				<label>Monto:</label>
 				<input type='number' id='inp-monto' />
 				<button>Agregar</button>
 			</form>	
 		</div>
+		<script src="{% static 'qr_read.js' %}"></script>
+		<script>
+		</script>
 	</body>
 </html>

@@ -1,5 +1,6 @@
 window.onload = async (e)=>{
-	let source = "https://api.qrserver.com/v1/create-qr-code/?data=gonzalo&size=500x500&color=000&bgcolor=687"
+	let user_hash = document.getElementById('user_hash').value
+	let source = `https://api.qrserver.com/v1/create-qr-code/?data=${user_hash}&size=500x500&color=000&bgcolor=687`
 	createQR(source)
 }
 
