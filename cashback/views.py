@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from . import models
 import json
+import datetime
 
 # Create your views here.
 def view_login(request):
@@ -83,7 +84,9 @@ def add_to_budget(request):
         target = models.User.objects.get(user_hash = user_hash)
         #add 0.09%
         target.budget += round(float(amount) * 0.09, 2)
+        log = models.Logs(user_hash=user_hash, amount=amount, date_time=datetime.date.today.ctime())
         target.save()
+        log.save()
         return HttpResponse(200)
     except models.User.DoesNotExist:
         return HttpResponse(404)

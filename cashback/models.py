@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+import datetime
 
 # Create your models here.
 class User(models.Model):
@@ -11,3 +12,8 @@ class User(models.Model):
 
     def __str__(self):
         return "{}, {}, {}".format(self.username, self.user_hash, self.budget)
+
+class Logs(models.Model):
+    user_hash = models.CharField(max_length=5, default='*****')
+    amount   = models.FloatField(default=0.0, validators=[MinValueValidator(0.0), MaxValueValidator(1000000)])
+    date_time = models.CharField(max_length=10, default=datetime.datetime.today())
