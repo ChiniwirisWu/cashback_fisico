@@ -10,4 +10,4 @@ class User(models.Model):
     user_hash = models.CharField(max_length=5, default='*****')
 
     def __str__(self):
-        return "{}, {}".format(self.username, self.user_hash)
+        return "{}, {}, {}".format(self.username, self.user_hash, self.budget)

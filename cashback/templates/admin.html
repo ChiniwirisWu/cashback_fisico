@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>Admin</title>
-		<link rel='stylesheet' href='{% static "login.css" %}' />
+		<link rel='stylesheet' href='{% static "admin.css" %}' />
 	</head>
 	<body>
 		<form style="display:inline-block" method="post" action="{% url "cashback:logout_user" %}">
@@ -12,18 +12,25 @@
 			<button>Salir</button>
 		</form>
 		<div id='div-container'>
-			<form method='post' action='http://api.qrserver.com/v1/read-qr-code' enctype="multipart/form-data">
+			<form method='post' action='#' id="cashback-form">
 				{% csrf_token %}
-				<h3>Cash back!</h3>	
+				<h1>Cash back!</h1>
+				<h3>Agregar o remover monto</h3>	
 				<label>Usuario: {{user.username}}</label><br>
-				<input type="hidden" name="MAX_FILE_SIZE" value="1048576">
-				Choose QR code image to read/scan: <input type="file" name="file">
+
+				<video id="scanner-frame"></video>
+				<div id="scanner-overlay"></div>
+				<p id="scanner-message"></p>
+
 				<label>Monto:</label>
-				<input type='number' id='inp-monto' />
-				<button>Agregar</button>
+				<input type="hidden" id="user_hash" name="user_hash" value="" />
+				<input type='number' id='inp-monto' name="amount" />
+				<button id="add-btn">Agregar</button>
+				<button id="remove-btn">Remover</button>
 			</form>	
+
 		</div>
-		<script src="{% static 'qr_read.js' %}"></script>
+		<script src="{% static 'admin_qr.js' %}" type="module"></script>
 		<script>
 		</script>
 	</body>

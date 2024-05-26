@@ -23,9 +23,9 @@ h3{
 #div-container{
 	background-color: var(--gold-light);
 	min-width: 500px; 
-	min-height: 500px;
+	min-height: 700px;
 	max-width: 500px; 
-	max-height: 500px;
+	max-height: 700px;
 	margin: auto;
 	margin-top: 10%;
 	box-shadow: 5px 5px 0px var(--turquoise-light);

@@ -1,5 +1,7 @@
 from django.shortcuts import render
+from django.shortcuts import HttpResponse
 from . import models
+import json
 
 # Create your views here.
 def view_login(request):
@@ -57,17 +59,52 @@ def logout_user(request):
 
 #
 def add_to_budget(request):
-    amount = request.POST.get('amount')
-    user_hash = request.POST.get('user_hash')
-    user = models.User.objects.get(username=request.POST.get('username'), password=request.POST.get('password'))
+    print(request.body)
+    body = json.loads(request.body)
+    amount = body['amount']
+    user_hash = body['user_hash']
+    print(amount)
     try:
         target = models.User.objects.get(user_hash = user_hash)
         #add 0.09%
-        target.budget += amount * 0.09
+        target.budget += round(float(amount) * 0.09, 2)
         target.save()
-        return render(request, 'admin.html', context={'user':user, 'msg':'fondo agregado exitosamente!'})
+        return HttpResponse(200)
     except models.User.DoesNotExist:
-        return render(request, 'admin.html', context={'user':user, 'msg':'usuario no existe.'})
+        return HttpResponse(404)
 
+def add_to_budget(request):
+    body = json.loads(request.body)
+    amount = body['amount']
+    user_hash = body['user_hash']
+    if(user_hash == ''):
+        return HttpResponse(404)
+    try:
+        target = models.User.objects.get(user_hash = user_hash)
+        #add 0.09%
+        target.budget += round(float(amount) * 0.09, 2)
+        target.save()
+        return HttpResponse(200)
+    except models.User.DoesNotExist:
+        return HttpResponse(404)
 
+def remove_from_budget(request):
+    body = json.loads(request.body)
+    amount = body['amount']
+    user_hash = body['user_hash']
+    print(body)
+    if(user_hash == ''):
+        print('hi')
+        return HttpResponse(404)
+    try:
+        target = models.User.objects.get(user_hash = user_hash)
+        #add 0.09%
+        target.budget -= float(amount)
+        if(target.budget >= 0):
+            target.save()
+            return HttpResponse(200)
+        else:
+            return HttpResponse(404)
+    except models.User.DoesNotExist:
+        return HttpResponse(404)
 
