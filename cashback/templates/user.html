@@ -17,29 +17,15 @@
 			<h2>User: {{user.username}}</h2>
 			<img alt='QR' id='qr_img' />
 			<div id='div-details'>
-				<h3>Saldo: 12.5$</h3>
-				<h3>Últimas compras:</h3>
+				<h3>Saldo: {{user.budget}}$</h3>
+				<h3>Últimos trámites:</h3>
 				<div id='div-last-purchases'>
-					<div class='div-purchase'>
-						<p class='p-purchase-date-time'>20/04/2024 - 8:30 AM</p>
-						<p class='p-purchase-amount'>-10$</p>
-						<p class='p-purchase-return'>+1$</p>
-					</div>
-					<div class='div-purchase'>
-						<p class='p-purchase-date-time'>20/04/2024 - 8:30 AM</p>
-						<p class='p-purchase-amount'>-23.4$</p>
-						<p class='p-purchase-return'>+2.34$</p>
-					</div>
-					<div class='div-purchase'>
-						<p class='p-purchase-date-time'>20/04/2024 - 8:30 AM</p>
-						<p class='p-purchase-amount'>-34.4$</p>
-						<p class='p-purchase-return'>+3.44$</p>
-					</div>
-					<div class='div-purchase'>
-						<p class='p-purchase-date-time'>20/04/2024 - 8:30 AM</p>
-						<p class='p-purchase-amount'>-5.3$</p>
-						<p class='p-purchase-return'>+0.53$</p>
-					</div>
+					{% for el in logs %}
+						<div class='div-purchase'>
+							<p class='p-purchase-date-time'>{{el.date_time}}</p>
+							<p class='p-purchase-amount'>{{el.amount}}</p>
+						</div>
+					{% endfor %}
 				</div>
 			</div>
 		</div>

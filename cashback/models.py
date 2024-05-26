@@ -15,5 +15,5 @@ class User(models.Model):
 
 class Logs(models.Model):
     user_hash = models.CharField(max_length=5, default='*****')
-    amount   = models.FloatField(default=0.0, validators=[MinValueValidator(0.0), MaxValueValidator(1000000)])
+    amount   = models.CharField(max_length=1000, default='0')
     date_time = models.CharField(max_length=10, default=datetime.datetime.today())

@@ -39,10 +39,12 @@ def login_user(request):
     try:
         user = models.User.objects.get(username=username, password=password)
         user.state = 1
+        user_hash = user.user_hash
+        logs = models.Logs.objects.filter(user_hash = user_hash)
         if(user.category == 'admin' and user.state == 1):
-            return render(request, 'admin.html', context={'user':user})
+            return render(request, 'admin.html', context={'user':user, 'budget': round(user.budget)})
         elif(user.category == 'user' and user.state == 1):
-            return render(request, 'user.html', context={'user':user})
+            return render(request, 'user.html', context={'user':user, 'logs':logs})
         else:
             return render(request, 'login.html', context={})
     except models.User.DoesNotExist:
@@ -59,20 +61,6 @@ def logout_user(request):
         return render(request, 'login.html', context={})
 
 #
-def add_to_budget(request):
-    print(request.body)
-    body = json.loads(request.body)
-    amount = body['amount']
-    user_hash = body['user_hash']
-    print(amount)
-    try:
-        target = models.User.objects.get(user_hash = user_hash)
-        #add 0.09%
-        target.budget += round(float(amount) * 0.09, 2)
-        target.save()
-        return HttpResponse(200)
-    except models.User.DoesNotExist:
-        return HttpResponse(404)
 
 def add_to_budget(request):
     body = json.loads(request.body)
@@ -84,7 +72,7 @@ def add_to_budget(request):
         target = models.User.objects.get(user_hash = user_hash)
         #add 0.09%
         target.budget += round(float(amount) * 0.09, 2)
-        log = models.Logs(user_hash=user_hash, amount=amount, date_time=datetime.date.today.ctime())
+        log = models.Logs(user_hash=user_hash, amount='+{}'.format(round(float(amount) * 0.09, 2)), date_time=datetime.date.today())
         target.save()
         log.save()
         return HttpResponse(200)
@@ -101,10 +89,12 @@ def remove_from_budget(request):
         return HttpResponse(404)
     try:
         target = models.User.objects.get(user_hash = user_hash)
+        log = models.Logs(user_hash=user_hash, amount='-{}'.format(amount, date_time=datetime.date.today()))
         #add 0.09%
-        target.budget -= float(amount)
+        target.budget -= round(float(amount), 2)
         if(target.budget >= 0):
             target.save()
+            log.save()
             return HttpResponse(200)
         else:
             return HttpResponse(404)

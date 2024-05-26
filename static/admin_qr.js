@@ -16,6 +16,7 @@ const scanner = new QrScanner(
 	result => {
 		$message.textContent = `User ${result.data} detected.`
 		$user_hash_inp.value = result.data
+		console.log(result)
 	},
 	Option = {
 		'prefereceCamera': 'environment',
