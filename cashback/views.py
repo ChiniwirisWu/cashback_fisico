@@ -44,7 +44,7 @@ def login_user(request):
         if(user.category == 'admin' and user.state == 1):
             return render(request, 'admin.html', context={'user':user, 'budget': round(user.budget)})
         elif(user.category == 'user' and user.state == 1):
-            return render(request, 'user.html', context={'user':user, 'logs':logs})
+            return render(request, 'user.html', context={'user':user, 'logs':logs, 'amount': round(user.budget, 2)})
         else:
             return render(request, 'login.html', context={})
     except models.User.DoesNotExist:
